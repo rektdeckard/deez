@@ -1,0 +1,16 @@
+NaturalNumber    =  { ASCII_NONZERO_DIGIT ~ ASCII_DIGIT* }
+DiceCount        = @{ NaturalNumber }
+DiceSize         = @{ NaturalNumber }
+DiceType         = @{ DiceSize | "%" }
+Dice             =  { DiceCount? ~ ("d" | "D") ~ DiceType }
+Modifier         =  { ModifierAdd | ModifierSubtract | ModifierMultiply | ModifierDivide | ModifierExplode }
+ModifierAdd      =  { "+" ~ WHITE_SPACE? ~ NaturalNumber }
+ModifierSubtract =  { "-" ~ WHITE_SPACE? ~ NaturalNumber }
+ModifierMultiply =  { ("x" | "X") ~ WHITE_SPACE? ~ NaturalNumber }
+ModifierDivide   =  { "/" ~ WHITE_SPACE? ~ NaturalNumber }
+ModifierExplode  =  { "!" ~ WHITE_SPACE? ~ NaturalNumber? }
+Retention        =  { RetentionHighest | RetentionLowest }
+RetentionHighest =  { ("k" | "K" | "h" | "H") ~ WHITE_SPACE? ~ NaturalNumber }
+RetentionLowest  =  { ("l" | "L") ~ WHITE_SPACE? ~ NaturalNumber }
+RollExpression   =  { Dice ~ WHITE_SPACE? ~ Retention? ~ WHITE_SPACE? ~ (Modifier ~ WHITE_SPACE?)* ~ WHITE_SPACE? }
+Rolls            =  { SOI ~ WHITE_SPACE? ~ RollExpression+ ~ WHITE_SPACE? ~ EOI }
